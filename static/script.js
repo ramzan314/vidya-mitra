@@ -65,7 +65,11 @@ async function callAI(action) {
     } else {
       outputDiv.innerHTML = '';
       const textDiv = document.createElement('div');
-      textDiv.innerText = data.result || data.error;
+      if (data.error) {
+        textDiv.innerText = data.error;
+      } else {
+        textDiv.innerHTML = marked.parse(data.result || "");
+      }
       outputDiv.appendChild(textDiv);
 
       if (action === 'summary' && !data.error && data.result) {

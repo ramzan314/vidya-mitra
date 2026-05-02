@@ -3,28 +3,31 @@
 <head>
   <title>AI Study Assistant</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
 
-  <div class="header">
-    <h1>📘 AI Study Assistant</h1>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" class="dark-mode-btn">🌙 Dark Mode</button>
-  </div>
+  <div class="glass-container">
+    <div class="header">
+      <h1>📘 AI Study Assistant</h1>
+      <button id="darkModeToggle" onclick="toggleDarkMode()" class="dark-mode-btn">🌙 Dark Mode</button>
+    </div>
 
-  <!-- Input -->
-  <textarea id="notes" placeholder="Paste your notes here..."></textarea>
-  <input type="file" id="fileUpload" accept=".txt,.pdf" />
+    <!-- Input -->
+    <textarea id="notes" placeholder="Paste your notes here..."></textarea>
+    <input type="file" id="fileUpload" accept=".txt,.pdf" />
 
-  <div class="button-group">
-    <button onclick="generateSummary()">Summary</button>
-    <button onclick="generateQuiz()">Quiz</button>
-    <button onclick="generateFlashcards()">Flashcards</button>
-  </div>
+    <div class="button-group">
+      <button onclick="generateSummary()">Summary</button>
+      <button onclick="generateQuiz()">Quiz</button>
+      <button onclick="generateFlashcards()">Flashcards</button>
+    </div>
 
-  <!-- Output -->
-  <div class="output" id="output">
-    Output will appear here...
+    <!-- Output -->
+    <div class="output" id="output">
+      Output will appear here...
+    </div>
   </div>
 
 </body>
