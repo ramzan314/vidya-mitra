@@ -1,102 +1,28 @@
-<!DOCTYPE html>
-
-
-
+!DOCTYPE html>
 <html>
-    
 <head>
   <title>AI Study Assistant</title>
-  <script src="{{ url_for('static',filename='script.js')}}" defer> </script>
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 15px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .output {
-      margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-    }
-    .flashcard-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
-    .flashcard {
-      background-color: transparent;
-      width: 250px;
-      height: 150px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-    .flashcard-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .flashcard.flipped .flashcard-inner {
-      transform: rotateY(180deg);
-    }
-    .flashcard-front, .flashcard-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-      box-sizing: border-box;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    }
-    .flashcard-front {
-      background-color: #fff;
-      color: black;
-      border: 1px solid #ddd;
-    }
-    .flashcard-back {
-      background-color: #4CAF50;
-      color: white;
-      transform: rotateY(180deg);
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
-
 <body>
 
   <h1>📘 AI Study Assistant</h1>
 
   <!-- Input -->
   <textarea id="notes" placeholder="Paste your notes here..."></textarea>
-  <input type="file" id="fileUpload" accept=".txt,.pdf" style="margin-bottom: 10px; display: block;" />
+  <input type="file" id="fileUpload" accept=".txt,.pdf" />
 
-  <button onclick="generateSummary()">Summary</button>
-  <button onclick="generateQuiz()">Quiz</button>
-  <button onclick="generateFlashcards()">Flashcards</button>
+  <div class="button-group">
+    <button onclick="generateSummary()">Summary</button>
+    <button onclick="generateQuiz()">Quiz</button>
+    <button onclick="generateFlashcards()">Flashcards</button>
+  </div>
 
   <!-- Output -->
   <div class="output" id="output">
     Output will appear here...
   </div>
-
-
 
 </body>
 </html>
