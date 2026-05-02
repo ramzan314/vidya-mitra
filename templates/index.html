@@ -1,102 +1,181 @@
-<!DOCTYPE html>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  background: linear-gradient(to bottom right, #f0f4f8, #e2e8f0);
+  color: #1e293b;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
 
+/* Heading */
+h1 {
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 30px;
+}
 
+/* Textarea */
+textarea {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box; 
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  resize: vertical;
+}
 
-<html>
-    
-<head>
-  <title>AI Study Assistant</title>
-  <script src="{{ url_for('static',filename='script.js')}}" defer> </script>
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 15px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .output {
-      margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-    }
-    .flashcard-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
-    .flashcard {
-      background-color: transparent;
-      width: 250px;
-      height: 150px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-    .flashcard-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .flashcard.flipped .flashcard-inner {
-      transform: rotateY(180deg);
-    }
-    .flashcard-front, .flashcard-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-      box-sizing: border-box;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    }
-    .flashcard-front {
-      background-color: #fff;
-      color: black;
-      border: 1px solid #ddd;
-    }
-    .flashcard-back {
-      background-color: #4CAF50;
-      color: white;
-      transform: rotateY(180deg);
-    }
-  </style>
-</head>
+textarea::placeholder {
+  color: #94a3b8;
+}
 
-<body>
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
 
-  <h1>📘 AI Study Assistant</h1>
+/* File Input */
+input[type="file"] {
+  margin-bottom: 20px;
+  display: block;
+  font-family: inherit;
+  color: #475569;
+}
 
-  <!-- Input -->
-  <textarea id="notes" placeholder="Paste your notes here..."></textarea>
-  <input type="file" id="fileUpload" accept=".txt,.pdf" style="margin-bottom: 10px; display: block;" />
+/* Buttons */
+button {
+  padding: 12px 20px;
+  margin: 5px 10px 20px 0;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-  <button onclick="generateSummary()">Summary</button>
-  <button onclick="generateQuiz()">Quiz</button>
-  <button onclick="generateFlashcards()">Flashcards</button>
+button:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+}
 
-  <!-- Output -->
-  <div class="output" id="output">
-    Output will appear here...
-  </div>
+button:active {
+  transform: translateY(1px);
+}
 
+/* Output Box */
+.output {
+  margin-top: 20px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  border-left: 6px solid #3b82f6;
+  line-height: 1.6;
+  font-size: 16px;
+  animation: fadeIn 0.5s ease-in-out;
+}
 
+/* Flashcard Grid */
+.flashcard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-</body>
-</html>
+/* Flashcard */
+.flashcard {
+  background-color: transparent;
+  width: 280px;
+  height: 180px;
+  perspective: 1000px;
+  cursor: pointer;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Flip effect */
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+/* Hover effect */
+.flashcard:hover .flashcard-inner {
+  transform: scale(1.05);
+}
+
+/* Card Faces */
+.flashcard-front, 
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 
+              0 4px 6px -2px rgba(0,0,0,0.05);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.flashcard-front {
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+
+.flashcard-back {
+  background-color: #10b981;
+  color: white;
+  transform: rotateY(180deg);
+  border: 1px solid #059669;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  textarea {
+    height: 120px;
+  }
+
+  .flashcard {
+    width: 100%;
+    max-width: 300px;
+  }
+}
