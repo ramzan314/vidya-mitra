@@ -280,3 +280,164 @@ button:focus,
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+/* === UI ENHANCEMENT ADDITIONS (NON-DESTRUCTIVE) === */
+
+/* Smooth global feel */
+* {
+  transition: all 0.25s ease;
+}
+
+/* Better page background (gradient + depth) */
+body {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+/* Center container feel */
+body::before {
+  content: "";
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: rgba(79, 70, 229, 0.15);
+  filter: blur(100px);
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -120px;
+  right: -120px;
+  width: 300px;
+  height: 300px;
+  background: rgba(16, 185, 129, 0.15);
+  filter: blur(100px);
+  z-index: -1;
+}
+
+/* Heading upgrade */
+h1 {
+  letter-spacing: -0.5px;
+  font-size: 2.2rem;
+}
+
+/* Textarea becomes modern input card */
+textarea {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid transparent;
+}
+
+textarea:hover {
+  border-color: var(--primary);
+}
+
+/* File input polish */
+input[type="file"] {
+  text-align: center;
+  font-weight: 500;
+}
+
+input[type="file"]::file-selector-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--primary-hover);
+}
+
+/* Button enhancements */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow on hover */
+button:hover {
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
+}
+
+/* Click ripple effect */
+button::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+button:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Output card upgrade */
+.output {
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(15px);
+}
+
+/* Quiz card container feel */
+.quiz-question {
+  background: rgba(255,255,255,0.7);
+  padding: 15px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Quiz options feel clickable */
+.quiz-option {
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-option:hover {
+  transform: scale(1.02);
+}
+
+/* Flashcard premium look */
+.flashcard-front {
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+
+/* Add floating effect */
+.flashcard:hover {
+  transform: translateY(-5px);
+}
+
+/* Scrollbar styling */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* Mobile polish */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}
