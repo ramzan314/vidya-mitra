@@ -193,3 +193,27 @@ function renderQuizQuestion(container) {
 function generateSummary() { callAI('summary'); }
 function generateQuiz() { callAI('quiz'); }
 function generateFlashcards() { callAI('flashcards'); }
+
+// Dark mode logic
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDark);
+  updateDarkModeButton(isDark);
+}
+
+function updateDarkModeButton(isDark) {
+  const btn = document.getElementById('darkModeToggle');
+  if (btn) {
+    btn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+  }
+}
+
+// Initialize dark mode on load
+document.addEventListener('DOMContentLoaded', () => {
+  const isDark = localStorage.getItem('darkMode') === 'true';
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  }
+  updateDarkModeButton(isDark);
+});

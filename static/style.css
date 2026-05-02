@@ -29,8 +29,31 @@ h1 {
   text-align: center;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 30px;
+  margin: 0;
   animation: fadeInDown 0.6s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dark-mode-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.dark-mode-btn:hover:not(:disabled) {
+  background-color: var(--bg);
+  color: var(--text);
+  transform: none;
+  box-shadow: none;
 }
 
 textarea {
@@ -240,4 +263,37 @@ button:active:not(:disabled) {
 
 .fade-in {
   animation: fadeIn 0.4s ease-out;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  --bg: #111827;
+  --surface: #1F2937;
+  --text: #F9FAFB;
+  --text-light: #9CA3AF;
+  --border: #374151;
+  --primary: #6366F1;
+  --primary-hover: #4F46E5;
+}
+
+body.dark-mode textarea {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+body.dark-mode input[type="file"] {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+body.dark-mode input[type="file"]:hover {
+  background-color: #374151;
+}
+
+body.dark-mode .quiz-option {
+  background-color: var(--surface);
+}
+
+body.dark-mode .quiz-option:hover:not(:disabled) {
+  background-color: #374151;
 }
