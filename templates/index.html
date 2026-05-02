@@ -1,58 +1,110 @@
-<!DOCTYPE html>
-
-
-
-<html>
-    
-<head>
-  <title>AI Study Assistant</title>
-  <script src="{{ url_for('static',filename='script.js')}}" defer> </script>
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f5f5f5;
+body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+      background: linear-gradient(to bottom right, #f0f4f8, #e2e8f0);
+      color: #1e293b;
+      max-width: 900px;
+      margin: 0 auto;
+      min-height: 100vh;
     }
+    
+    h1 {
+      color: #0f172a;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     textarea {
       width: 100%;
       height: 150px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      box-sizing: border-box; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: border-color 0.3s;
+      resize: vertical;
     }
+
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    input[type="file"] {
+      margin-bottom: 20px;
+      display: block;
+      font-family: inherit;
+      color: #475569;
+    }
+
     button {
-      padding: 10px 15px;
-      margin: 5px;
+      padding: 12px 20px;
+      margin: 5px 10px 20px 0;
       cursor: pointer;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
+    button:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
     .output {
       margin-top: 20px;
-      padding: 15px;
+      padding: 25px;
       background: white;
-      border-radius: 10px;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      border-left: 6px solid #3b82f6;
+      line-height: 1.6;
+      font-size: 16px;
     }
+
+    /* Modern Flashcard Styling */
     .flashcard-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
+      margin-top: 20px;
     }
+
     .flashcard {
       background-color: transparent;
-      width: 250px;
-      height: 150px;
+      width: 280px;
+      height: 180px;
       perspective: 1000px;
       cursor: pointer;
     }
+
     .flashcard-inner {
       position: relative;
       width: 100%;
       height: 100%;
       text-align: center;
-      transition: transform 0.6s;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
       transform-style: preserve-3d;
     }
+
     .flashcard.flipped .flashcard-inner {
       transform: rotateY(180deg);
     }
+
     .flashcard-front, .flashcard-back {
       position: absolute;
       width: 100%;
@@ -61,42 +113,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 15px;
+      padding: 20px;
       box-sizing: border-box;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      border-radius: 16px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      font-size: 18px;
+      line-height: 1.4;
     }
+
     .flashcard-front {
-      background-color: #fff;
-      color: black;
-      border: 1px solid #ddd;
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
     }
+
     .flashcard-back {
-      background-color: #4CAF50;
+      background-color: #10b981; /* A nice modern emerald green */
       color: white;
       transform: rotateY(180deg);
+      border: 1px solid #059669;
     }
-  </style>
-</head>
-
-<body>
-
-  <h1>📘 AI Study Assistant</h1>
-
-  <!-- Input -->
-  <textarea id="notes" placeholder="Paste your notes here..."></textarea>
-  <input type="file" id="fileUpload" accept=".txt,.pdf" style="margin-bottom: 10px; display: block;" />
-
-  <button onclick="generateSummary()">Summary</button>
-  <button onclick="generateQuiz()">Quiz</button>
-  <button onclick="generateFlashcards()">Flashcards</button>
-
-  <!-- Output -->
-  <div class="output" id="output">
-    Output will appear here...
-  </div>
-
-
-
-</body>
-</html>
