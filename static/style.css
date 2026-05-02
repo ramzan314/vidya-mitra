@@ -121,8 +121,8 @@ button:active:not(:disabled) {
 
 .flashcard {
   background-color: transparent;
-  width: 280px;
-  height: 180px;
+  width: 350px;
+  height: 250px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -153,6 +153,7 @@ button:active:not(:disabled) {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   font-size: 1.1rem;
+  overflow-y: auto;
 }
 
 .flashcard-front {
