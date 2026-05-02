@@ -1,4 +1,5 @@
 import os
+import itertools
 import PyPDF2
 from io import BytesIO
 from flask import Flask, render_template, request, jsonify
@@ -8,7 +9,17 @@ from google import genai
 load_dotenv()
 
 app = Flask(__name__)
-client = genai.Client(api_key=os.environ.get("API_KEY"))
+
+# Load multiple keys if provided, otherwise fallback to API_KEY
+keys_str = os.environ.get("API_KEYS", os.environ.get("API_KEY", ""))
+api_keys = [k.strip() for k in keys_str.split(",") if k.strip()]
+
+if not api_keys:
+    print("Warning: No API_KEY or API_KEYS found in environment variables.")
+
+# Create a client for each key and cycle through them
+clients = [genai.Client(api_key=key) for key in api_keys]
+client_cycle = itertools.cycle(clients) if clients else None
 
 def extract_text_from_file(file):
     filename = file.filename.lower()
@@ -69,11 +80,26 @@ def generate():
     prompt = prompts.get(action, "Process the following notes:\n\n") + notes
 
     try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt
-        )
-        return jsonify({"result": response.text})
+        if not client_cycle:
+            return jsonify({"error": "No API keys configured"}), 500
+            
+        max_retries = len(api_keys)
+        last_error = None
+        
+        for _ in range(max_retries):
+            client = next(client_cycle)
+            try:
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt
+                )
+                return jsonify({"result": response.text})
+            except Exception as e:
+                last_error = e
+                print(f"API Key failed, trying next one. Error: {e}")
+                continue
+                
+        return jsonify({"error": f"All API keys failed. Last error: {str(last_error)}"}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
