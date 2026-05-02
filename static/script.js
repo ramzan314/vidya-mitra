@@ -70,28 +70,23 @@ async function callAI(action) {
 
       if (action === 'summary' && !data.error && data.result) {
         const readBtn = document.createElement('button');
+        readBtn.className = 'btn-read fade-in';
         readBtn.innerText = '🔊 Read Aloud';
-        readBtn.style.marginTop = '15px';
-        readBtn.style.backgroundColor = '#2196F3';
-        readBtn.style.color = 'white';
-        readBtn.style.border = 'none';
-        readBtn.style.borderRadius = '5px';
-        readBtn.style.padding = '8px 12px';
         
         readBtn.onclick = () => {
           if (window.speechSynthesis.speaking) {
             window.speechSynthesis.cancel();
             readBtn.innerText = '🔊 Read Aloud';
-            readBtn.style.backgroundColor = '#2196F3';
+            readBtn.classList.remove('stop');
           } else {
             const utterance = new SpeechSynthesisUtterance(data.result);
             utterance.onend = () => {
               readBtn.innerText = '🔊 Read Aloud';
-              readBtn.style.backgroundColor = '#2196F3';
+              readBtn.classList.remove('stop');
             };
             window.speechSynthesis.speak(utterance);
             readBtn.innerText = '⏹ Stop Reading';
-            readBtn.style.backgroundColor = '#f44336';
+            readBtn.classList.add('stop');
           }
         };
         outputDiv.appendChild(readBtn);
@@ -134,48 +129,42 @@ function renderFlashcards(flashcards, container) {
 
 function renderQuizQuestion(container) {
   container.innerHTML = '';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'fade-in';
+  
   if (currentQuestionIndex >= currentQuiz.length) {
     const scoreDiv = document.createElement('div');
     scoreDiv.style.textAlign = 'center';
-    scoreDiv.style.padding = '20px';
-    scoreDiv.innerHTML = `<h2>Quiz Complete!</h2><p>Your score: ${userScore} / ${currentQuiz.length}</p>`;
-    container.appendChild(scoreDiv);
+    scoreDiv.innerHTML = `<h2>Quiz Complete! 🎉</h2><p style="font-size: 1.2rem; margin-top:10px;">Your score: ${userScore} / ${currentQuiz.length}</p>`;
+    wrapper.appendChild(scoreDiv);
+    container.appendChild(wrapper);
     return;
   }
 
   const qData = currentQuiz[currentQuestionIndex];
   
   const questionEl = document.createElement('h3');
+  questionEl.className = 'quiz-question';
   questionEl.innerText = `Q${currentQuestionIndex + 1}. ${qData.question}`;
-  container.appendChild(questionEl);
+  wrapper.appendChild(questionEl);
 
   const optionsContainer = document.createElement('div');
-  optionsContainer.style.display = 'flex';
-  optionsContainer.style.flexDirection = 'column';
-  optionsContainer.style.gap = '10px';
+  optionsContainer.className = 'quiz-options';
 
   qData.options.forEach(opt => {
     const btn = document.createElement('button');
+    btn.className = 'quiz-option';
     btn.innerText = opt;
-    btn.style.padding = '10px';
-    btn.style.textAlign = 'left';
-    btn.style.backgroundColor = '#f0f0f0';
-    btn.style.border = '1px solid #ccc';
-    btn.style.borderRadius = '5px';
-    btn.style.cursor = 'pointer';
     
     btn.onclick = () => {
       if (opt === qData.answer) {
-        btn.style.backgroundColor = '#4CAF50';
-        btn.style.color = 'white';
+        btn.classList.add('correct');
         userScore++;
       } else {
-        btn.style.backgroundColor = '#f44336';
-        btn.style.color = 'white';
+        btn.classList.add('wrong');
         Array.from(optionsContainer.children).forEach(child => {
           if (child.innerText === qData.answer) {
-            child.style.backgroundColor = '#4CAF50';
-            child.style.color = 'white';
+            child.classList.add('correct');
           }
         });
       }
@@ -185,23 +174,19 @@ function renderQuizQuestion(container) {
       });
       
       const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn-next fade-in';
       nextBtn.innerText = 'Next Question';
-      nextBtn.style.marginTop = '15px';
-      nextBtn.style.padding = '10px';
-      nextBtn.style.backgroundColor = '#2196F3';
-      nextBtn.style.color = 'white';
-      nextBtn.style.border = 'none';
-      nextBtn.style.borderRadius = '5px';
       nextBtn.onclick = () => {
         currentQuestionIndex++;
         renderQuizQuestion(container);
       };
-      container.appendChild(nextBtn);
+      wrapper.appendChild(nextBtn);
     };
     optionsContainer.appendChild(btn);
   });
   
-  container.appendChild(optionsContainer);
+  wrapper.appendChild(optionsContainer);
+  container.appendChild(wrapper);
 }
 
 // Map your existing buttons to call the function
