@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --success: #10B981;
+  --danger: #EF4444;
+  --bg: #F3F4F6;
+  --surface: #FFFFFF;
+  --text: #1F2937;
+  --text-light: #6B7280;
+  --border: #E5E7EB;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 30px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  resize: vertical;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+input[type="file"] {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px dashed var(--primary);
+  border-radius: var(--radius);
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.3s;
+  color: var(--text);
+}
+input[type="file"]:hover {
+  background: #EEF2FF;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.output {
+  margin-top: 20px;
+  padding: 25px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-height: 100px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Flashcards */
+.flashcard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.flashcard {
+  background-color: transparent;
+  width: 280px;
+  height: 180px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 1.1rem;
+}
+
+.flashcard-front {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.flashcard-back {
+  background-color: var(--success);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/* Quiz */
+.quiz-question {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-option {
+  padding: 15px 20px;
+  text-align: left;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  color: var(--text);
+  box-shadow: none;
+}
+
+.quiz-option:hover:not(:disabled) {
+  background-color: #E0E7FF;
+  border-color: var(--primary);
+  transform: none;
+  box-shadow: none;
+}
+
+.quiz-option.correct {
+  background-color: var(--success) !important;
+  color: white !important;
+  border-color: var(--success) !important;
+}
+
+.quiz-option.wrong {
+  background-color: var(--danger) !important;
+  color: white !important;
+  border-color: var(--danger) !important;
+}
+
+.btn-next, .btn-read {
+  margin-top: 20px;
+  background-color: var(--primary);
+  width: 100%;
+}
+
+.btn-read.stop {
+  background-color: var(--danger);
+}
+
+.btn-read.stop:hover {
+  background-color: #DC2626;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
