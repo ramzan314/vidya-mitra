@@ -90,6 +90,9 @@ button {
   transition: all 0.2s ease;
   box-shadow: var(--shadow);
 }
+button {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+}
 
 button:hover:not(:disabled) {
   background-color: var(--primary-hover);
@@ -101,6 +104,12 @@ button:active:not(:disabled) {
   transform: translateY(0);
 }
 
+button:focus,
+.quiz-option:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
 .output {
   margin-top: 20px;
   padding: 25px;
@@ -109,6 +118,10 @@ button:active:not(:disabled) {
   box-shadow: var(--shadow);
   min-height: 100px;
   animation: fadeIn 0.5s ease-out;
+}
+.output {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 /* Flashcards */
@@ -125,6 +138,9 @@ button:active:not(:disabled) {
   height: 180px;
   perspective: 1000px;
   cursor: pointer;
+}
+.flashcard:hover .flashcard-inner {
+  transform: rotateY(10deg) scale(1.03);
 }
 
 .flashcard-inner {
@@ -239,4 +255,28 @@ button:active:not(:disabled) {
 
 .fade-in {
   animation: fadeIn 0.4s ease-out;
+}
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  .flashcard {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+.loading {
+  background: linear-gradient(90deg, #eee, #ddd, #eee);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
