@@ -62,7 +62,7 @@ def generate():
 
     prompts = {
         "summary": "Summarize the following notes concisely:\n\n",
-        "quiz": "Create a short multiple-choice quiz based on the following notes:\n\n",
+        "quiz": "Create a short 5-question multiple-choice quiz based on the following notes. Return ONLY a valid JSON array of objects, where each object has 'question' (string), 'options' (array of 4 strings), and 'answer' (the exact string of the correct option). Do not include markdown formatting like ```json.\n\n",
         "flashcards": "Create 5 flashcards based on the following notes. Return ONLY a valid JSON array of objects, with each object having 'front' and 'back' properties. Example: [{\"front\": \"Q1\", \"back\": \"A1\"}]. Do not include markdown formatting like ```json.\n\n"
     }
 

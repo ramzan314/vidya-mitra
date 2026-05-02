@@ -1,3 +1,7 @@
+let currentQuiz = [];
+let currentQuestionIndex = 0;
+let userScore = 0;
+
 async function callAI(action) {
   const notes = document.getElementById("notes").value;
   const fileInput = document.getElementById("fileUpload");
@@ -38,6 +42,22 @@ async function callAI(action) {
         }
         const flashcards = JSON.parse(jsonStr);
         renderFlashcards(flashcards, outputDiv);
+      } catch (e) {
+        console.error("JSON parse error:", e);
+        outputDiv.innerText = data.result;
+      }
+    } else if (action === 'quiz' && !data.error) {
+      try {
+        let jsonStr = data.result.trim();
+        if (jsonStr.startsWith("```json")) {
+          jsonStr = jsonStr.substring(7, jsonStr.length - 3).trim();
+        } else if (jsonStr.startsWith("```")) {
+          jsonStr = jsonStr.substring(3, jsonStr.length - 3).trim();
+        }
+        currentQuiz = JSON.parse(jsonStr);
+        currentQuestionIndex = 0;
+        userScore = 0;
+        renderQuizQuestion(outputDiv);
       } catch (e) {
         console.error("JSON parse error:", e);
         outputDiv.innerText = data.result;
@@ -110,6 +130,78 @@ function renderFlashcards(flashcards, container) {
   });
 
   container.appendChild(grid);
+}
+
+function renderQuizQuestion(container) {
+  container.innerHTML = '';
+  if (currentQuestionIndex >= currentQuiz.length) {
+    const scoreDiv = document.createElement('div');
+    scoreDiv.style.textAlign = 'center';
+    scoreDiv.style.padding = '20px';
+    scoreDiv.innerHTML = `<h2>Quiz Complete!</h2><p>Your score: ${userScore} / ${currentQuiz.length}</p>`;
+    container.appendChild(scoreDiv);
+    return;
+  }
+
+  const qData = currentQuiz[currentQuestionIndex];
+  
+  const questionEl = document.createElement('h3');
+  questionEl.innerText = `Q${currentQuestionIndex + 1}. ${qData.question}`;
+  container.appendChild(questionEl);
+
+  const optionsContainer = document.createElement('div');
+  optionsContainer.style.display = 'flex';
+  optionsContainer.style.flexDirection = 'column';
+  optionsContainer.style.gap = '10px';
+
+  qData.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.innerText = opt;
+    btn.style.padding = '10px';
+    btn.style.textAlign = 'left';
+    btn.style.backgroundColor = '#f0f0f0';
+    btn.style.border = '1px solid #ccc';
+    btn.style.borderRadius = '5px';
+    btn.style.cursor = 'pointer';
+    
+    btn.onclick = () => {
+      if (opt === qData.answer) {
+        btn.style.backgroundColor = '#4CAF50';
+        btn.style.color = 'white';
+        userScore++;
+      } else {
+        btn.style.backgroundColor = '#f44336';
+        btn.style.color = 'white';
+        Array.from(optionsContainer.children).forEach(child => {
+          if (child.innerText === qData.answer) {
+            child.style.backgroundColor = '#4CAF50';
+            child.style.color = 'white';
+          }
+        });
+      }
+      
+      Array.from(optionsContainer.children).forEach(child => {
+          if (child.tagName === 'BUTTON') child.disabled = true;
+      });
+      
+      const nextBtn = document.createElement('button');
+      nextBtn.innerText = 'Next Question';
+      nextBtn.style.marginTop = '15px';
+      nextBtn.style.padding = '10px';
+      nextBtn.style.backgroundColor = '#2196F3';
+      nextBtn.style.color = 'white';
+      nextBtn.style.border = 'none';
+      nextBtn.style.borderRadius = '5px';
+      nextBtn.onclick = () => {
+        currentQuestionIndex++;
+        renderQuizQuestion(container);
+      };
+      container.appendChild(nextBtn);
+    };
+    optionsContainer.appendChild(btn);
+  });
+  
+  container.appendChild(optionsContainer);
 }
 
 // Map your existing buttons to call the function
